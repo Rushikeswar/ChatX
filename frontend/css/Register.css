@@ -1,0 +1,81 @@
+/* Register.css */
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3f87a6, #ebf8e1);
+  color: #333;
+}
+
+.register-toggle {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.register-toggle button {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #666;
+}
+
+.register-active-button {
+  color: #000;
+  border-bottom: 2px solid #3f87a6;
+}
+
+.register-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.register-title {
+  font-size: 24px;
+  color: #3f87a6;
+  margin-bottom: 1.5em;
+}
+
+.register-message {
+  color: #ff4d4d;
+  font-size: 14px;
+  margin-bottom: 1em;
+}
+
+.register-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.register-container input:focus {
+  border-color: #3f87a6;
+  outline: none;
+}
+
+.register-submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3f87a6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-submit-button:hover {
+  background-color: #285a73;
+}
