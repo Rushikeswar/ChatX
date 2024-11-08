@@ -26,7 +26,7 @@ const ChatRoom = () => {
   useEffect(() => {
     const fetchUserName = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/getUserName?userId=${senderId}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/getUserName?userId=${senderId}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
@@ -63,7 +63,7 @@ const ChatRoom = () => {
     socket.on('receiveMessage', (msg) => {
       if (msg.sender === receiverId) {
         setMessages((prevMessages) => [...prevMessages, msg]);
-        fetch(`http://localhost:3000/markMessagesAsRead/${receiverId}/${senderId}`, {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/markMessagesAsRead/${receiverId}/${senderId}`, {
           method: 'POST',
         }).catch((err) => console.error('Failed to mark messages as read:', err));
       }
@@ -98,7 +98,7 @@ const ChatRoom = () => {
   useEffect(() => {
     const fetchPreviousUsers = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/previousMessagedUsers/${senderId}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/previousMessagedUsers/${senderId}`);
         if (!response.ok) {
           const errorResponse = await response.json();
           console.log(errorResponse.errormessage);
@@ -117,7 +117,7 @@ const ChatRoom = () => {
   const searchUsers = async (query) => {
     if (query.trim().length === 0) return;
     try {
-      const response = await fetch(`http://localhost:3000/searchUsers?query=${query}`, { credentials: 'include' });
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/searchUsers?query=${query}`, { credentials: 'include' });
       const data = await response.json();
       setUsers(data);
     } catch (err) {
@@ -131,7 +131,7 @@ const ChatRoom = () => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:3000/messages/${senderId}/${receiverId}`);
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/messages/${senderId}/${receiverId}`);
       if (response.ok) {
         const data = await response.json();
         setMessages(data);
@@ -180,7 +180,7 @@ const ChatRoom = () => {
     fetchMessages(user._id);
     updateUnread(user._id, 0);
 
-    fetch(`http://localhost:3000/markMessagesAsRead/${user._id}/${senderId}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/markMessagesAsRead/${user._id}/${senderId}`, {
       method: 'POST',
     }).catch((err) => console.error('Failed to mark messages as read:', err));
   };
