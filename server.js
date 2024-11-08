@@ -23,7 +23,7 @@ import { connecttomongodb } from './backend/connect.js';
 import { Message } from './backend/MessageSchema.js';
 import { User } from './backend/User.js';
 
-const mongodburl = 'mongodb://localhost:27017/Chat';
+const mongodburl = 'mongodb+srv://rushikeswar:Rushi9908@chatx.ve8ew.mongodb.net/?retryWrites=true&w=majority&appName=ChatX/Chat';
 connecttomongodb(mongodburl)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => {
