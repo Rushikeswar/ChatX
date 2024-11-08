@@ -13,7 +13,7 @@ const ChatRoom = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [senderId, setSenderId] = useState(sessionStorage.getItem('user_id'));
   const [receiverId, setReceiverId] = useState('');
-
+  const [userName, setUserName] = useState('');
   const messagesEndRef = useRef(null);
 
   // Scroll to bottom function
@@ -22,6 +22,29 @@ const ChatRoom = () => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/getUserName?userId=${senderId}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          console.log(errorResponse.error);
+        } else {
+          const data = await response.json();
+          setUserName(data.name);
+        }
+      } catch (err) {
+        console.error('Failed to fetch username', err);
+      }
+    };
+    fetchUserName();
+  }, [senderId]);
+
 
   // Scroll only when messages are updated
   useEffect(() => {
@@ -161,86 +184,90 @@ const ChatRoom = () => {
       method: 'POST',
     }).catch((err) => console.error('Failed to mark messages as read:', err));
   };
+
   const getTime = (timestamp) => {
     // Ensure that the timestamp is converted to a Date object
     const date = new Date(timestamp);
-  
+
     if (isNaN(date.getTime())) {
       console.error("Invalid Date object:", timestamp);
       return "Invalid time";
     }
-  
+
     // Extract hours and minutes in HH:mm format
     const hours = date.getUTCHours().toString().padStart(2, '0');
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-  
+
     return `${hours}:${minutes}`;  // Returns time in HH:mm format
   };
-  
+
   return (
-    <div className="chat-room">
+    <div className="chat-room" >
       {/* Search Bar */}
       <div className='user-list-section'>
-      <div>
-        <input
-          type="text"
-          placeholder="Search for a user..."
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            searchUsers(e.target.value);
-          }}
-        />
-      </div>
-
-      {/* Search Results */}
-      <div className="user-list">
-        {users.map((user) => (
-          user._id !== senderId && <div key={user._id} onClick={() => handleUserClick(user)}>
-            {user.username}
-          </div>
-        ))}
-      </div>
-      
-      {/* Previously Messaged Users */}
-      <h3>Chats</h3>
-      <div className="user-list">
-        {previousUsers.map((user) => (
-          <div key={user._id} onClick={() => handleUserClick(user)}>
-            {user.username} {(user.unreadCount > 0 && user._id !== receiverId) && <span> ({user.unreadCount} unread)</span>}
-          </div>
-        ))}
-      </div>
-      </div>
-
-        <div className='chat-section'>
-      {/* Chat with Selected User */}
-      <h3>Chatting with: {receiverUsername || 'No user selected'}</h3>
-      {receiverUsername && (
-        <div className="messages">
-          {messages.map((msg, i) => (
-            <p key={i} className={msg.sender === senderId ? 'message right' : 'message left'}>
-              {/* {msg.sender === senderId ? 'You' : receiverUsername}:  */}
-              <div className='msgbox'>
-              <span className='msgcontent'>{msg.content}</span>
-              <span className='time'>{getTime(msg.timestamp)}</span>
-              </div>
-            </p>
-          ))}
-          <div ref={messagesEndRef} />
+        <div>
+        {senderId && <p style={{border:"3px groove grey",borderRadius:"4px",display:"inline",padding:"5px"}}>{userName}</p>}
+        <br/>
+        <br/>
+          <input
+            type="text"
+            placeholder="Search for a user..."
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              searchUsers(e.target.value);
+            }}
+          />
         </div>
-      )}
 
-      {/* Message Input */}
-      <div className="message-input">
-        <input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button onClick={sendMessage}>Send</button>
+        {/* Search Results */}
+        <div className="user-list">
+          {users.map((user) => (
+            user._id !== senderId && <div key={user._id} onClick={() => handleUserClick(user)}>
+              {user.username}
+            </div>
+          ))}
+        </div>
+
+        {/* Previously Messaged Users */}
+        <h3>Chats</h3>
+        <div className="user-list">
+          {previousUsers.map((user) => (
+            <div key={user._id} onClick={() => handleUserClick(user)}>
+              {user.username} {(user.unreadCount > 0 && user._id !== receiverId) && <span> ({user.unreadCount} unread)</span>}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <div className='chat-section'>
+        {/* Chat with Selected User */}
+        <h3>Chatting with: {receiverUsername || 'No user selected'}</h3>
+        {receiverUsername && (
+          <div className="messages">
+            {messages.map((msg, i) => (
+              <p key={i} className={msg.sender === senderId ? 'message right' : 'message left'}>
+                {/* {msg.sender === senderId ? 'You' : receiverUsername}:  */}
+                <div className='msgbox'>
+                  <span className='msgcontent'>{msg.content}</span>
+                  <span className='time'>{getTime(msg.timestamp)}</span>
+                </div>
+              </p>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
+
+        {/* Message Input */}
+        <div className="message-input">
+          <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type a message"
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
+      </div>
     </div>
   );
 };

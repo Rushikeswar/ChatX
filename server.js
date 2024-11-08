@@ -22,6 +22,7 @@ const server = http.createServer(app);
 import { connecttomongodb } from './backend/connect.js';
 import { Message } from './backend/MessageSchema.js';
 import { User } from './backend/User.js';
+import { error } from 'console';
 
 const mongodburl = 'mongodb+srv://rushikeswar:Rushi9908@chatx.ve8ew.mongodb.net/?retryWrites=true&w=majority&appName=ChatX/Chat';
 connecttomongodb(mongodburl)
@@ -53,7 +54,7 @@ io.on('connection', (socket) => {
   // Send message from one user to another
   socket.on('sendMessage', async (messageData) => {
     const { senderId, receiverId, content } = messageData;
-  
+
     // Save the message to the database
     const newMessage = new Message({
       sender: senderId,
@@ -61,26 +62,25 @@ io.on('connection', (socket) => {
       receiver: receiverId,
       isRead: false,  // Message is unread by default
     });
-  
+
     await newMessage.save();
-  
+
     // Check if the receiver is logged in
     const receiverRoom = io.sockets.adapter.rooms.get(receiverId);
-    
+
     if (receiverRoom) {
       // The receiver is logged in; emit the message to the receiver's room
       io.to(receiverId).emit('receiveMessage', newMessage);
-  
+
       // Check if the receiver is actively chatting with the sender
       socket.broadcast.to(receiverId).emit('checkActiveConversation', senderId, (isActive) => {
-          socket.to(receiverId).emit('increaseUnreadCount', senderId);
+        socket.to(receiverId).emit('increaseUnreadCount', senderId);
       });
     }
-  
+
     // Send the message back to the sender so they can see it in their UI as well
     io.to(senderId).emit('receiveMessage', newMessage);
   });
-  
 
   socket.on('disconnect', () => {
     console.log('User disconnected', socket.id);
@@ -103,6 +103,17 @@ app.post('/register', async (req, res) => {
   const newUser = new User({ username, email, password: hashedPassword });
   await newUser.save();
   res.json(newUser);
+});
+
+app.get('/getUserName', async (req, res) => {
+  const { userId } = req.query;
+  const user = await User.findById(userId);
+  if (user) {
+    const name = user.username;
+    res.json({ name });
+  } else {
+    res.status(401).json({ error: 'User not found' });
+  }
 });
 
 // API for logging in
@@ -130,7 +141,6 @@ app.get('/searchUsers', async (req, res) => {
   }
 });
 
-
 // Route to fetch messages and mark them as read
 app.get('/messages/:senderId/:receiverId', async (req, res) => {
   const { senderId, receiverId } = req.params;
@@ -152,11 +162,11 @@ app.get('/messages/:senderId/:receiverId', async (req, res) => {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage) {
       await User.updateOne(
-        { _id:new  mongoose.Types.ObjectId(senderId) },
+        { _id: new mongoose.Types.ObjectId(senderId) },
         { $pull: { lastReadMessages: { receiver: new mongoose.Types.ObjectId(receiverId) } } }
       );
       await User.updateOne(
-        { _id:new  mongoose.Types.ObjectId(senderId) },
+        { _id: new mongoose.Types.ObjectId(senderId) },
         { $push: { lastReadMessages: { receiver: new mongoose.Types.ObjectId(receiverId), lastReadMessageId: lastMessage._id } } }
       );
     }
@@ -191,8 +201,8 @@ app.get('/previousMessagedUsers/:userId', async (req, res) => {
       {
         $match: {
           $or: [
-            { sender:new mongoose.Types.ObjectId(userId) },
-            { receiver:new mongoose.Types.ObjectId(userId) }
+            { sender: new mongoose.Types.ObjectId(userId) },
+            { receiver: new mongoose.Types.ObjectId(userId) }
           ]
         }
       },
@@ -200,7 +210,7 @@ app.get('/previousMessagedUsers/:userId', async (req, res) => {
         $group: {
           _id: {
             $cond: [
-              { $eq: ['$sender',new mongoose.Types.ObjectId(userId)] },
+              { $eq: ['$sender', new mongoose.Types.ObjectId(userId)] },
               '$receiver',
               '$sender'
             ]
@@ -236,7 +246,7 @@ app.get('/previousMessagedUsers/:userId', async (req, res) => {
         $project: {
           _id: 1,
           unreadCount: 1,
-          username:'$userDetails.username',
+          username: '$userDetails.username',
         }
       }
     ]);
