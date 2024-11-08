@@ -6,6 +6,8 @@ import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import ObjectId from 'mongodb';
+import dotenv from 'dotenv';
+dotenv.config();
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -24,7 +26,7 @@ import { Message } from './backend/MessageSchema.js';
 import { User } from './backend/User.js';
 import { error } from 'console';
 
-const mongodburl = 'mongodb+srv://rushikeswar:Rushi9908@chatx.ve8ew.mongodb.net/?retryWrites=true&w=majority&appName=ChatX/Chat';
+const mongodburl = process.env.url;
 connecttomongodb(mongodburl)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => {
