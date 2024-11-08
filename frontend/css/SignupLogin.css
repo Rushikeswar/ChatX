@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@600&display=swap');
+
+:root {
+    --primary-color: #003366; /* Deep Navy Blue */
+    --secondary-color: #006699; /* Bright Sky Blue */
+    --accent-color: #00BFFF; /* Deep Sky Blue */
+    --text-color: #1A1A1A; /* Dark Gray */
+    
+    --input-border: #B0C4DE; /* Light Steel Blue */
+    --error-color: #DC2626; /* Red */
+    --success-color: #16A34A; /* Green */
+    --button-hover: #005BB5; /* Darker Blue on Hover */
+    --button-active: #003d66; /* Dark Blue */
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --font-family-primary: 'Roboto', sans-serif;
+    --font-family-secondary: 'Poppins', sans-serif;
+}
+
+#signin-login-page {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: flex-start;
+    gap:5px;
+    min-height: 100vh;
+    padding: 20px;
+    background-image: url('../assets/new.jpeg');
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #signin-login-page {
+        flex-direction: column;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes flyInleft {
+    0% {
+        opacity: 0;
+        transform: rotateY(-120deg) rotateZ(90deg) scale(0.1) translate(-50%, 20%);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) rotateZ(0deg) scale(1) translate(0%, 0%);
+    }
+}
+
+@keyframes flyInright {
+    0% {
+        opacity: 0;
+        transform: rotateY(120deg) rotateZ(-90deg) scale(0.1) translate(-50%, 20%);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) rotateZ(0deg) scale(1) translate(0%, 0%);
+    }
+}
+
+/* Animation Classes */
+.signin-animate {
+    animation: flyInleft 1s ease forwards;
+}
+
+.login-animate {
+    animation: flyInright 1s ease forwards;
+}
+
+.signup-login-container {
+    font-family: var(--font-family-primary);
+    width: 400px;
+    max-width: 90%;
+
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--input-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 25px; /* Reduced vertical and horizontal padding */
+    margin: 0;
+    transform-origin: center center;
+    background: rgba(255, 255, 255, 0.3);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    height:auto;
+    /* backdrop-filter: blur(1px); */
+}
+#leftimage, .signup-login-container {
+height:550px;
+}
+.signup-login-container:hover {
+    transform: translateY(-4px); /* Reduced lift on hover */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow */
+}
+
+/* Heading Styling */
+.signup-login-container h2 {
+    font-family: var(--font-family-secondary);
+    text-align: center;
+    margin-bottom: 20px; /* Reduced margin below heading */
+    font-size: 28px; /* Slightly smaller font size */
+    color: var(--primary-color);
+}
+
+/* Form Elements */
+.signup-login-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.signup-login-container label {
+    margin-bottom: 6px; /* Reduced margin below labels */
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.signup-login-container input {
+    padding: 10px 12px; /* Reduced padding */
+    width: 300px;
+    font-size: 14px; /* Slightly smaller font size */
+    margin-bottom: 15px; /* Reduced margin between inputs */
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background-color: var(--input-background);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.signup-login-container input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+/* Password Strength Label */
+.form-password-strength {
+    align-self: flex-start; /* Align to the start */
+    font-size: 14px; /* Smaller font size */
+    color: var(--text-color);
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+/* Buttons */
+.signup-login-container button {
+    padding: 12px 18px; /* Reduced padding */
+    font-size: 16px; /* Reduced font size */
+    font-family: var(--font-family-secondary);
+    font-weight: 600;
+    margin-top: 8px; /* Reduced margin */
+    margin-bottom: 8px; /* Reduced margin */
+    border: none;
+    border-radius: 30px;
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    width:150px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signup-login-container button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.signup-login-container button:active {
+    background-color: var(--button-active);
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Links */
+.already {
+    margin-top: 10px; /* Reduced margin */
+    text-align: center;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 14px; /* Slightly smaller link text */
+    transition: color 0.3s ease;
+}
+
+.already:hover {
+    color: var(--button-hover);
+}
+
+/* Messages */
+.message {
+    margin-top: 10px; /* Reduced space above messages */
+    text-align: center;
+    font-size: 14px; /* Slightly smaller message text */
+    color: var(--text-color);
+    font-weight: 500;
+    min-height: 20px; /* Reserve space for messages */
+    visibility: hidden; /* Hide the message by default */
+    transition: visibility 0s linear 0.3s, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.message.visible {
+    visibility: visible; /* Show the message */
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.error-message {
+    color: var(--error-color);
+}
+
+.success-message {
+    color: var(--success-color);
+}
+
+/* Auth Toggle Buttons */
+.auth-toggle {
+    margin-bottom: 20px; /* Reduced margin */
+    display: flex;
+    gap: 15px; /* Reduced gap */
+    flex-direction: row;
+    justify-content: center;
+}
+
+.auth-toggle button {
+    padding: 8px 20px; /* Reduced padding */
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2); /* Transparent white */
+    color: black;
+    cursor: pointer;
+    font-size: 14px; /* Slightly smaller font size */
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.auth-toggle button:hover {
+    transform: scale(1.05);
+    background-color: var(--secondary-color);
+}
+
+.auth-toggle .activebutton {
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.7), 0 0 40px rgba(59, 130, 246, 0.5);
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 480px) {
+    .signup-login-container {
+        padding: 20px 15px; /* Further reduced padding */
+    }
+
+    .signup-login-container h2 {
+        font-size: 24px; /* Further reduced font size */
+    }
+
+    .signup-login-container input {
+        font-size: 14px; /* Reduced font size */
+    }
+
+    .signup-login-container button {
+        font-size: 14px; /* Reduced font size */
+        padding: 10px 16px; /* Reduced padding */
+    }
+
+    .already {
+        font-size: 14px; /* Consistent smaller font size */
+    }
+
+    .message {
+        font-size: 14px; /* Consistent smaller font size */
+    }
+}
