@@ -9,6 +9,7 @@ import ObjectId from 'mongodb';
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
+const port = process.env.PORT || 4000;
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
