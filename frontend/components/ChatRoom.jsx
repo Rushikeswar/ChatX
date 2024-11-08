@@ -204,11 +204,11 @@ const ChatRoom = () => {
   return (
     <div className="chat-room" >
       {/* Search Bar */}
-      <div className="senderName">
-        {userName}
-      </div>
       <div className='user-list-section'>
         <div>
+        {senderId && <p style={{border:"3px groove grey",borderRadius:"4px",display:"inline",padding:"5px"}}>{userName}</p>}
+        <br/>
+        <br/>
           <input
             type="text"
             placeholder="Search for a user..."

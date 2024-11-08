@@ -116,7 +116,6 @@ app.get('/getUserName', async (req, res) => {
   }
 });
 
-
 // API for logging in
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -141,7 +140,6 @@ app.get('/searchUsers', async (req, res) => {
     res.status(500).json({ error: 'Failed to search users' });
   }
 });
-
 
 // Route to fetch messages and mark them as read
 app.get('/messages/:senderId/:receiverId', async (req, res) => {
