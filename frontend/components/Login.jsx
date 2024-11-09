@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
     setMessage('');
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login`, 
+      const response = await fetch(`https://chatx-vptn.onrender.com/login`, 
         { 
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
