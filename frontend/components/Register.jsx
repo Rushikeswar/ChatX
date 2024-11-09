@@ -19,7 +19,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/register`, 
+      const response = await fetch(`https://chatx-vptn.onrender.com/register`, 
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
