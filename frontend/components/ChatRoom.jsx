@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import '../css/ChatRoom.css';
 
-const socket = io(process.env.REACT_APP_BACKEND_URL, {transports:['websocket','polling'], reconnection: true });
+const socket = io('https://chatx-vptn.onrender.com', {transports:['websocket','polling'], reconnection: true });
 
 const ChatRoom = () => {
   const [message, setMessage] = useState('');
