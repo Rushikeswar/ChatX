@@ -34,7 +34,7 @@ const Register = () => {
       if (!response.ok) {
         const errorResponse = await response.json();
         setMessage(errorResponse.errormessage || "An error occurred.");
-      } else {
+      } else if(response.ok) {
         setMessage('Registered successfully!');
         setTimeout(() => {
           navigate('/login');
