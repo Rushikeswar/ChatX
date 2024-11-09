@@ -107,8 +107,7 @@ app.post('/register', async (req, res) => {
   }
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new User({ username, email, password: hashedPassword });
-  const x=await newUser.save();
-  return res.status(200).json(newUser);
+    res.json(newUser);
 });
 
 app.get('/getUserName', async (req, res) => {
